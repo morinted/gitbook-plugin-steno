@@ -1,0 +1,187 @@
+{ "lessonOrder":
+  [ "topRow"
+  ]
+, "lessons":
+  { "topRow":
+    { "briefs":
+      [ "S"
+      , "T"
+      , "H"
+      , "U"
+      , "-F"
+      , "-T"
+      , "TP-PL"
+      , "H-F"
+      , "STPH-FPLT"
+      ]
+    , "practice":
+      [ "-T HUL S TUF TP-PL"
+      , "TAP -T SAP TP-PL"
+      , "PUL -T HUL TP-PL"
+      , "-T PAL H H T TP-PL"
+      , "S -T PUP TUF H-F"
+      , "U STPH-FPLT PUL -T TUF PUP TP-PL"
+      , "-T HUT H HAF -F -T SALT TP-PL"
+      , "U H STAF H-F"
+      , "-T STAF SAT TP-PL"
+      , "-T HUL S TUF TP-PL"
+      , "U SAT TP-PL"
+      , "HALT STPH-FPLT PUL T TP-PL"
+      , "S T HAF SAP H-F"
+      , "T S -T SHAFT TP-PL"
+      ]
+    }
+  , "bottomRow":
+    { "briefs":
+      [ "R"
+      , "-R"
+      , "SKP"
+      , "AEU"
+      , "K"
+      , "W"
+      , "-B"
+      , "HE"
+      , "E"
+      , "SHE"
+      , "WE"
+      , "SO"
+      , "TO"
+      , "OR"
+      , "KW-BG"
+      ]
+    , "practice":
+      [ "-T KAT SKP -T PUG R UP TP-PL"
+      , "ROL TO -T TOP TP-PL"
+      , "RUB -T SOFT PUG SKP -T KAT TP-PL"
+      , "WE H TO STOP -T KAR AT -T KURB TP-PL"
+      , "AEU KRAB K KUT US H-F"
+      , "U K -B AEU STAR TP-PL"
+      , "W AEU TOP HAT U K -B HOT TP-PL"
+      , "HUF KW-BG PUF KW-BG SKP STOP TP-PL"
+      , "T S AEU KUT -F -T RUG TP-PL"
+      , "HUF KW-BG PUF KW-BG SKP START TP-PL"
+      , "KUT UP -T RAG TP-PL"
+      , "HUG AEU WET RAT TP-PL"
+      , "TUG AT -T STRAPS TP-PL"
+      , "U H AEU SKUL TP-PL"
+      , "U R AEU STAR -F SORTS TP-PL"
+      , "S T AEU WORS CUT H-F"
+      ]
+    }
+  , "*DZ":
+    { "briefs":
+      [ "TH"
+      , "THA"
+      , "THE"
+      , "WHA"
+      , "UD"
+      ]
+    , "practice":
+      [ "T WAZ HARD TO -B HER TP-PL"
+      , "TH S HAF -T STAF SHE HAZ TP-PL"
+      , "UD -B WHA THE R H-F"
+      , "TH S WAR TP-PL"
+      , "THA RAT S SO WET STPH-FPLT HUG HER TP-PL"
+      , "SHE PATD -T WET RAT TP-PL"
+      , "HE K HED TO -T KAR W HER TP-PL"
+      , "E STOPD -T SOFT PUG AT -T TOP -F -T STEPS TP-PL"
+      , "SHE PULD -T KART TP-PL"
+      , "WHA S TH H-F"
+      , "SHE K PET -T KAT KW-BG PUG KW-BG SKP RAT TP-PL"
+      , "THE R RUFD UP TP-PL"
+      , "THA S KW-BG WEL KW-BG THA S PART -F T TP-PL"
+      ]
+    }
+  , "basicNumbers":
+    { "practice":
+      [ "E H #TO OR SO TP-PL"
+      , "-F -T #SAO E KEPT #AEUP KW-PL OR HAF TP-PL"
+      , "WHA R -T #ST STEPS H-F"
+      , "SHE S #HO TP-PL"
+      , "E H #AO #O TP-PL"
+      , "STEP #S STPH-FPLT START TP-PL"
+      , "#TOEUT #SO TP-PL"
+      ]
+    }
+  , "awOwFinalK":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }
+  , "initialDBL":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }
+  , "chTh":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }
+  , "i":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }
+  , "m":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }
+  , "initialFQ":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }
+  , "ayeOy":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }
+  , "n":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }
+  , "oh":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }
+  , "v":
+    { "briefs":
+      [
+      ]
+    , "practice":
+      [
+      ]
+    }                
+  }
+}

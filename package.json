@@ -1,0 +1,24 @@
+{
+  "name": "gitbook-plugin-steno",
+  "version": "0.0.1",
+  "description": "Utilities to display steno material in Gitbook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morinted/gitbook-plugin-steno.git"
+  },
+  "keywords": [
+    "stenography",
+    "plover",
+    "steno"
+  ],
+  "author": "Ted Morin",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/morinted/gitbook-plugin-steno/issues"
+  },
+  "homepage": "https://github.com/morinted/gitbook-plugin-steno#readme"
+}
