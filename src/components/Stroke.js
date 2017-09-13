@@ -1,12 +1,14 @@
 import React from 'react'
+import path from 'path-svg/svg-path'
 
+const numberBarHeight = 0.6
 const firstRow =
   ['t', 'p', 'h', '', 'F', 'P', 'L', 'T', 'D']
     .reduce((result, stenoKey, index) => {
       if (stenoKey) {
         result[stenoKey] =
           { x: index + 1
-          , y: 1
+          , y: numberBarHeight
           , w: 1
           , h: 1
           , rounded: false
@@ -20,7 +22,7 @@ const secondRow =
       if (stenoKey) {
         result[stenoKey] =
           { x: index + 1
-          , y: 2
+          , y: 1 + numberBarHeight
           , w: 1
           , h: 1
           , rounded: true
@@ -29,12 +31,18 @@ const secondRow =
       return result
     }, {})
 const thirdRow =
-  ['a', 'o', '', 'e', 'u']
+  ['a', 'o', 'e', 'u']
     .reduce((result, stenoKey, index) => {
       if (stenoKey) {
         result[stenoKey] =
-          { x: index + 3.5
-          , y: 3
+          /**
+           * With only one asterisk key, the vowel keys need to be separated
+           * to avoid having them touch. With this code, I'm shifting them
+           * a half unit apart by starting at 2.25 instead of 2.5, and then
+           * having the right half (EU) start at 4.75 instead of 4.5.
+           **/
+          { x: index + 2.25 + (index >= 2 ? 0.5 : 0)
+          , y: 2 + numberBarHeight
           , w: 1
           , h: 1
           , rounded: true
@@ -48,9 +56,9 @@ const KEYS =
   , 'F', 'R', 'P', 'B', 'L', 'G', 'T', 'S', 'D', 'Z'
   ]
 const KEY_INFO =
-  { '#': { x: 0, y: 0, w: 11, h: 1, rounded: false }
-  , s: { x: 0, y: 1, w: 1, h: 2, rounded: true }
-  , '*': { x: 4, y: 1, w: 1, h: 2, rounded: true }
+  { '#': { x: 0, y: 0, w: 11, h: numberBarHeight, rounded: false }
+  , s: { x: 0, y: numberBarHeight, w: 1, h: 2, rounded: true }
+  , '*': { x: 4, y: numberBarHeight, w: 1, h: 2, rounded: true }
   , ...firstRow
   , ...secondRow
   , ...thirdRow
@@ -192,10 +200,49 @@ class Stroke {
   }
 
   get SVG() {
+    const unit = 50
+    const aspectRatio = 1.2 // How much taller are keys than wide?
+    const arcRadius = unit / 2
     return (
-      <svg height="400" width="450">
-        <path d="M 100 350 q 150 -300 300 0" stroke="blue"
-  stroke-width="5" fill="red" />
+      <svg
+        height={(KEY_INFO.a.y + 1) * unit * aspectRatio}
+        width={(KEY_INFO.D.x + 1) * unit}
+      >
+        { KEYS.map(
+            currentKey => {
+              const keyInfo = KEY_INFO[currentKey]
+              if (!keyInfo) return null
+              return (
+                <path
+                  key={currentKey}
+                  d={
+                    !keyInfo.rounded ?
+                      // Flat key
+                      path()
+                        .to(keyInfo.x * unit, keyInfo.y * unit * aspectRatio)
+                        .rel()
+                        .hline(keyInfo.w * unit)
+                        .vline(keyInfo.h * unit * aspectRatio)
+                        .hline(-keyInfo.w * unit)
+                        .close()
+                        .str() :
+                      // Rounded key
+                      path()
+                        .to(keyInfo.x * unit, keyInfo.y * unit * aspectRatio)
+                        .rel()
+                        .hline(keyInfo.w * unit)
+                        .vline(keyInfo.h * unit * aspectRatio - arcRadius)
+                        .arc(arcRadius * keyInfo.w, arcRadius, 0, 0, 1, -keyInfo.w * unit, 0)
+                        .close()
+                        .str()
+                  }
+                  stroke="blue"
+                  fill="red"
+                />
+              )
+            }
+          )
+        }
       </svg>
     )
   }

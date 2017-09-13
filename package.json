@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/morinted/gitbook-plugin-steno#readme",
   "dependencies": {
+    "path-svg": "^0.2.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },
