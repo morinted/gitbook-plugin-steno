@@ -4,12 +4,24 @@ import Stroke from './Stroke'
 
 type Props =
   { chord: string
-  , size: 'sm'|'md'|'lg'
+  , labels?: 'all' | string // STKPW...
   }
 
+const ALL_LETTERS = new Stroke('#STKPWHRAO*EUFRPBLGTSDZ')
+
 const StenoDisplay =
-  ({ chord, size }: Props) => {
-    return (new Stroke(chord)).SVG
+  ({ chord, labels }: Props) => {
+    const userChord = new Stroke(chord)
+    const lettering =
+      !labels
+        ? null
+        : labels.toLowerCase() === 'all'
+        ? ALL_LETTERS
+        : new Stroke(labels)
+
+    return <div style={{textAlign: 'center'}}>
+      <Stroke.Layout chord={userChord} lettering={lettering}/>
+    </div>
   }
 
 export default StenoDisplay

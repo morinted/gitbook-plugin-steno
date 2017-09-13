@@ -1,7 +1,7 @@
 import React from 'react'
 import path from 'path-svg/svg-path'
 
-const numberBarHeight = 0.6
+const numberBarHeight = 0.55
 const firstRow =
   ['t', 'p', 'h', '', 'F', 'P', 'L', 'T', 'D']
     .reduce((result, stenoKey, index) => {
@@ -56,7 +56,7 @@ const KEYS =
   , 'F', 'R', 'P', 'B', 'L', 'G', 'T', 'S', 'D', 'Z'
   ]
 const KEY_INFO =
-  { '#': { x: 0, y: 0, w: 11, h: numberBarHeight, rounded: false }
+  { '#': { x: 0, y: 0, w: 10, h: numberBarHeight, rounded: false }
   , s: { x: 0, y: numberBarHeight, w: 1, h: 2, rounded: true }
   , '*': { x: 4, y: numberBarHeight, w: 1, h: 2, rounded: true }
   , ...firstRow
@@ -120,10 +120,10 @@ const RIGHT_SHORTCUTS =
     , [ 'v', '*f' ]
     ]
   )
-const NUMBER_PATTERN = /\d/
+const NUMBER_PATTERN = /\d|#/
 
 const SPLIT_PATTERN =
-  /(j?v?s?z?g?f?t?x?c?k?d?n?m?b?p?y?q?w?h?r?l?)((?:a?o?e?u?i?\*?-?)+)((?:sh)?(?:ch)?v?f?r?n?m?j?p?k?x?b?l?g?t?s?d?z?)/
+  /(#?j?v?s?z?g?f?t?x?c?k?d?n?m?b?p?y?q?w?h?r?l?)((?:a?o?e?u?i?\*?-?)+)((?:sh)?(?:ch)?v?f?r?n?m?j?p?k?x?b?l?g?t?s?d?z?)/
 
 class Stroke {
   static replaceShortcuts(replacements, steno) {
@@ -136,7 +136,7 @@ class Stroke {
   static normalizeStroke(rawStroke) {
     rawStroke = rawStroke ? rawStroke.trim() : null
     if (!rawStroke) return null
-    const numberBar = NUMBER_PATTERN.test(rawStroke) || rawStroke.includes('#')
+    const numberBar = NUMBER_PATTERN.test(rawStroke)
     if (numberBar) {
       rawStroke = Stroke.replaceShortcuts(NUMBER_TO_KEYS, rawStroke)
     }
@@ -148,7 +148,7 @@ class Stroke {
     midHand = Stroke.replaceShortcuts(MID_SHORTCUTS, midHand)
     rightHand = Stroke.replaceShortcuts(RIGHT_SHORTCUTS, rightHand)
     return (
-      { left: (numberBar ? '#' : '') + leftHand.toUpperCase()
+      { left: (numberBar ? '#' : '') + leftHand.toUpperCase().replace('#', '')
       , mid: midHand.toUpperCase()
       , right: rightHand.toUpperCase()
       }
@@ -199,46 +199,103 @@ class Stroke {
     }, '')
   }
 
-  get SVG() {
+  static Layout({chord, lettering, style}) {
     const unit = 50
     const aspectRatio = 1.2 // How much taller are keys than wide?
     const arcRadius = unit / 2
+    const strokeWidth = unit / 25
+    const padding = unit / 10
+
+    const boardHeight = KEY_INFO.a.y + 1
+    const rows = Math.ceil(KEY_INFO.a.y)
+    const boardWidth = KEY_INFO.D.x + 1
+    const columns = Math.ceil(KEY_INFO.D.x)
+    const svgHeight =
+      boardHeight * unit * aspectRatio + (rows + 2) * padding
+    const svgWidth =
+      boardWidth * unit + (columns + 2) * padding
     return (
       <svg
-        height={(KEY_INFO.a.y + 1) * unit * aspectRatio}
-        width={(KEY_INFO.D.x + 1) * unit}
+        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        style={
+          { stroke: 'currentColor'
+          , strokeWidth
+          , fillOpacity: 0
+          , maxWidth: 800
+          , width: '100%'
+          , maxWidth: 500
+          , height: 'auto'
+          , margin: '0 auto'
+          }
+        }
       >
+        <style>{`
+          .steno-key-active {
+            fill: currentColor;
+            fill-opacity: 0.3;
+          }
+        `}</style>
         { KEYS.map(
             currentKey => {
               const keyInfo = KEY_INFO[currentKey]
               if (!keyInfo) return null
+              const internalHorizontalPadding = keyInfo.w > 1
+                ? parseInt(keyInfo.w - 1) * padding
+                : 0
+
+              // We need to break the padding rules for E and U
+              const removePadding = ['e', 'u'].includes(currentKey) ? 1 : 0
+              const startX = keyInfo.x * unit + padding * (Math.ceil(keyInfo.x + 1) - removePadding)
+              const startY = keyInfo.y * unit * aspectRatio + padding * Math.ceil(keyInfo.y + 1)
+              const keyPath = path() // Draw the common part of the key (flat or rounded)
+                .to(startX, startY)
+                .rel() // Operating relatively
+                .hline(keyInfo.w * unit + internalHorizontalPadding) // Only define the top of the path
+              const internalVerticalPadding = keyInfo.h > 1
+                ? parseInt(keyInfo.h - 1) * padding
+                : 0
               return (
-                <path
-                  key={currentKey}
-                  d={
-                    !keyInfo.rounded ?
-                      // Flat key
-                      path()
-                        .to(keyInfo.x * unit, keyInfo.y * unit * aspectRatio)
-                        .rel()
-                        .hline(keyInfo.w * unit)
-                        .vline(keyInfo.h * unit * aspectRatio)
-                        .hline(-keyInfo.w * unit)
-                        .close()
-                        .str() :
-                      // Rounded key
-                      path()
-                        .to(keyInfo.x * unit, keyInfo.y * unit * aspectRatio)
-                        .rel()
-                        .hline(keyInfo.w * unit)
-                        .vline(keyInfo.h * unit * aspectRatio - arcRadius)
-                        .arc(arcRadius * keyInfo.w, arcRadius, 0, 0, 1, -keyInfo.w * unit, 0)
-                        .close()
-                        .str()
+                <g key={currentKey}>
+                  <path
+                    className={`steno-key ${chord[currentKey]? 'steno-key-active' : ''}`}
+                    d={
+                      !keyInfo.rounded ?
+                        // Flat key
+                        keyPath
+                          .vline(keyInfo.h * unit * aspectRatio + internalVerticalPadding)
+                          .hline(-keyInfo.w * unit - internalHorizontalPadding)
+                          .close()
+                          .str() :
+                        // Rounded key
+                        keyPath
+                          .vline(keyInfo.h * unit * aspectRatio - arcRadius + internalVerticalPadding)
+                          .arc(arcRadius * keyInfo.w, arcRadius, 0, 0, 1, -keyInfo.w * unit, 0)
+                          .close()
+                          .str()
+                    }
+                  >
+                  </path>
+                  { lettering[currentKey]
+                    ? <text
+                        style={
+                          { strokeWidth: 0
+                          , fill: 'currentColor'
+                          , fillOpacity: 1
+                          , fontSize: 25
+                          }
+                        }
+                        textAnchor='middle'
+                        dominantBaseline="central"
+                        x={startX + keyInfo.w * unit / 2}
+                        y={startY + keyInfo.h * unit * aspectRatio / 2
+                            // Raise letters in rounded keys slightly
+                            - (keyInfo.rounded && keyInfo.h === 1 ? arcRadius / 7 : 0)}
+                      >
+                        {currentKey.toUpperCase()}
+                      </text>
+                    : null
                   }
-                  stroke="blue"
-                  fill="red"
-                />
+                </g>
               )
             }
           )
