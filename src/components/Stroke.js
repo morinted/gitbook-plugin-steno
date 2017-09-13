@@ -166,21 +166,21 @@ class Stroke {
     if (!normalized) return
     normalized.left.split('').forEach(stenoKey => {
       stenoKey = stenoKey.toLowerCase()
-      if (KEYS.includes(stenoKey)) {
+      if (KEYS.indexOf(stenoKey) !== -1) {
         this[stenoKey] = true
         this.isValid = true
       }
     })
     normalized.mid.split('').forEach(stenoKey => {
       stenoKey = stenoKey.toLowerCase()
-      if (KEYS.includes(stenoKey)) {
+      if (KEYS.indexOf(stenoKey) !== -1) {
         this[stenoKey] = true
         this.isValid = true
       }
     })
     normalized.right.split('').forEach(stenoKey => {
       stenoKey = stenoKey.toUpperCase()
-      if (KEYS.includes(stenoKey)) {
+      if (KEYS.indexOf(stenoKey) !== -1) {
         this[stenoKey] = true
         this.isValid = true
       }
@@ -244,7 +244,7 @@ class Stroke {
                 : 0
 
               // We need to break the padding rules for E and U
-              const removePadding = ['e', 'u'].includes(currentKey) ? 1 : 0
+              const removePadding = ['e', 'u'].indexOf(currentKey) !== -1 ? 1 : 0
               const startX = keyInfo.x * unit + padding * (Math.ceil(keyInfo.x + 1) - removePadding)
               const startY = keyInfo.y * unit * aspectRatio + padding * Math.ceil(keyInfo.y + 1)
               const keyPath = path() // Draw the common part of the key (flat or rounded)
