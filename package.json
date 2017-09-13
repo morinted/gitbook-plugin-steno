@@ -1,6 +1,6 @@
 {
   "name": "gitbook-plugin-steno",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Utilities to display steno material in Gitbook",
   "main": "index.js",
   "scripts": {
