@@ -16,10 +16,15 @@ const StenoDisplay =
       !labels
         ? null
         : labels.toLowerCase() === 'all'
-        ? ALL_LETTERS
-        : new Stroke(labels)
+          ? ALL_LETTERS
+          : new Stroke(labels)
 
     return <div style={{textAlign: 'center'}}>
+      <style>{`
+        svg {
+          max-width: 100%;
+        }
+      `}</style>
       <Stroke.Layout chord={userChord} lettering={lettering}/>
     </div>
   }

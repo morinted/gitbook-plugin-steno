@@ -217,24 +217,17 @@ class Stroke {
     return (
       <svg
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
         style={
           { stroke: 'currentColor'
           , strokeWidth
           , fillOpacity: 0
-          , maxWidth: 800
-          , width: '100%'
-          , maxWidth: 500
+          , width: svgWidth
           , height: 'auto'
-          , margin: '0 auto'
           }
         }
       >
-        <style>{`
-          .steno-key-active {
-            fill: currentColor;
-            fill-opacity: 0.3;
-          }
-        `}</style>
         { KEYS.map(
             currentKey => {
               const keyInfo = KEY_INFO[currentKey]
@@ -257,7 +250,9 @@ class Stroke {
               return (
                 <g key={currentKey}>
                   <path
-                    className={`steno-key ${chord[currentKey]? 'steno-key-active' : ''}`}
+                    className='steno-key'
+                    fill='currentColor'
+                    fillOpacity={chord[currentKey] ? 0.3 : 0}
                     d={
                       !keyInfo.rounded ?
                         // Flat key
