@@ -14,7 +14,7 @@ const StenoDisplay =
     const userChord = new Stroke(chord)
     const lettering =
       !labels
-        ? null
+        ? new Stroke('-') // No labels
         : labels.toLowerCase() === 'all'
           ? ALL_LETTERS
           : new Stroke(labels)
